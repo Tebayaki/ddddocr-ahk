@@ -4,6 +4,7 @@
 ### 使用
 本仓库只包含AHK封装代码，依赖脚本同目录下的`ddddocr.dll`。  
 可克隆[86maid/ddddocr](https://github.com/86maid/ddddocr)自行编译，或直接下载编译好的[二进制文件](https://github.com/Tebayaki/ddddocr-ahk/releases)。  
+可能需要安装[VC运行库](https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170#:~:text=https%3A//aka.ms/vs/17/release/vc_redist.x64.exe)  
   
 ##### 识别验证码:  
 ![](img/ocr_1.jpg)
@@ -11,6 +12,11 @@
 ocr := DdddOcr()
 image := FileRead("example.jpg", "RAW")
 result := ocr.classification(image)
+MsgBox(result)
+
+; 限定结果为数字和字母，某些情况可能会提升准确率
+ocr.set_ranges("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+result := ocr.classification_probability(image)
 MsgBox(result)
 ```
 ##### 检测目标位置:  
