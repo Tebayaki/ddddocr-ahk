@@ -8,7 +8,7 @@
 class DdddOcrDll {
     __New() {
         if !this.Ptr := DllCall("LoadLibraryW", "str", A_LineFile "\..\ddddocr.dll", "ptr")
-            throw OSError(, -1)
+            throw OSError("Unable to load module, make sure the dependent dll is present and the VC runtime is installed.", -1)
     }
     __Delete() {
         if this.Ptr
