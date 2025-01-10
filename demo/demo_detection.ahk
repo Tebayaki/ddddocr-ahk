@@ -1,14 +1,18 @@
-#Include <ddddocr>
+#Include ../ddddocr.ahk
 
-; 滑块识别
-ui := Gui()
-ui.AddPicture(, "img/slide_target_1.png")
-background := ui.AddPicture("ys", "img/slide_background_1.jpg")
-ui.Show()
+; 目标检测
+det := DdddOcrDetection()
+loop files "img/detection_*.jpg" {
+    result := det.detection(A_LoopFilePath)
 
-det := DdddOcrSlideMatch()
-result := det.slide_match("img/slide_target_1.png", "img/slide_background_1.jpg")
-frame(background.Hwnd, result.x1, result.y1, result.x2, result.y2)
+    ui := Gui()
+    pic := ui.AddPicture(, A_LoopFilePath)
+    ui.Show()
+    for bbox in result 
+        frame(pic.Hwnd, bbox.x1, bbox.y1, bbox.x2, bbox.y2)
+    WinWaitClose(ui)
+    ui.Destroy()
+}
 
 frame(hwnd, x1, y1, x2, y2) {
     hdc := DllCall("GetDC", "ptr", hwnd, "ptr")

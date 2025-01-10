@@ -1,4 +1,4 @@
-#Include <ddddocr>
+#Include ../ddddocr.ahk
 
 ; 验证码识别
 ocr := DdddOcr()
